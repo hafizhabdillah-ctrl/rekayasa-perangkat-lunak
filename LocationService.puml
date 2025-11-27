@@ -1,0 +1,83 @@
+@startuml
+title LocationService Module Relationship
+
+interface LocationService
+interface LocationDAO
+
+class LocationServiceImpl {
+  - LocationDAO dao
+  + setLocationDAO(LocationDAO)
+  + saveLocation(Location)
+  + getLocation(Integer)
+  + getLocation(String)
+  + getDefaultLocation()
+  + getLocationByUuid(String)
+  + getAllLocations()
+  + getLocations(String)
+  + getLocationsByTag(LocationTag)
+  + getLocationsHavingAllTags(List<LocationTag>)
+  + getLocationsHavingAnyTag(List<LocationTag>)
+  + retireLocation(Location, String)
+  + unretireLocation(Location)
+  + purgeLocation(Location)
+  + saveLocationTag(LocationTag)
+  + getLocationTag(Integer)
+  + getLocationTagByName(String)
+  + getAllLocationTags()
+  + getLocationTags(String)
+  + retireLocationTag(LocationTag, String)
+  + unretireLocationTag(LocationTag)
+  + purgeLocationTag(LocationTag)
+  + getCountOfLocations(String, Boolean)
+  + getRootLocations(boolean)
+  + getPossibleAddressValues(Address, String)
+  + getAddressTemplate()
+  + saveAddressTemplate(String)
+  + getAllLocationAttributeTypes()
+  + getLocationAttributeType(Integer)
+  + getLocationAttributeTypeByUuid(String)
+  + saveLocationAttributeType(LocationAttributeType)
+  + retireLocationAttributeType(LocationAttributeType, String)
+  + unretireLocationAttributeType(LocationAttributeType)
+  + purgeLocationAttributeType(LocationAttributeType)
+  + getLocationAttributeByUuid(String)
+  + getLocationAttributeTypeByName(String)
+}
+
+LocationService <|.. LocationServiceImpl
+LocationServiceImpl ..> LocationDAO
+
+class HibernateLocationDAO {
+  - SessionFactory sessionFactory
+  + saveLocation(Location)
+  + getLocation(Integer)
+  + getLocation(String)
+  + getAllLocations(boolean)
+  + deleteLocation(Location)
+  + saveLocationTag(LocationTag)
+  + getLocationTag(Integer)
+  + getLocationTagByName(String)
+  + getAllLocationTags(boolean)
+  + getLocationTags(String)
+  + deleteLocationTag(LocationTag)
+  + getLocationByUuid(String)
+  + getLocationTagByUuid(String)
+  + getCountOfLocations(String, Boolean)
+  + getLocations(String, Location, Map<LocationAttributeType, String>, boolean, Integer, Integer)
+  + getRootLocations(boolean)
+  + getAllLocationAttributeTypes()
+  + getLocationAttributeType(Integer)
+  + getLocationAttributeTypeByUuid(String)
+  + saveLocationAttributeType(LocationAttributeType)
+  + deleteLocationAttributeType(LocationAttributeType)
+  + getLocationAttributeByUuid(String)
+  + getLocationAttributeTypeByName(String)
+  + getLocationsHavingAllTags(List<LocationTag>)
+}
+
+interface SessionFactory
+
+LocationDAO <|.. HibernateLocationDAO
+HibernateLocationDAO ..> SessionFactory
+
+@enduml
